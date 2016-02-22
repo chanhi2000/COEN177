@@ -1,4 +1,4 @@
 # Summary
 
-* [ch01](ch01/ch01.md)
+* [ch01](lect/ch01.md)
 
