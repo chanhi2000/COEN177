@@ -6,5 +6,6 @@
 * [ch02b](lect/ch02b.md)
 * [ch03](lect/ch03.md)
 * [ch04a](lect/ch04a.md)
+* [ch04b](lect/ch04b.md)
 * [mt](mt/mt15.md)
 
