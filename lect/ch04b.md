@@ -1,5 +1,5 @@
 # ch04b
-MEMORY MANAGEMENT II:  
+MEMORY MANAGEMENT II:
 Paging Algorithms and Implementation Issues
 
 
@@ -16,7 +16,7 @@ Paging Algorithms and Implementation Issues
 //more page faults => BAD
 
 
-## OPTIMAL PAGE REPLACEMENT ALGORITHM 
+## OPTIMAL PAGE REPLACEMENT ALGORITHM
 - What’s the best we can possibly do?
     - Assume perfect knowledge of the future
     - Not realizable in practice (usually)
@@ -31,7 +31,7 @@ Paging Algorithms and Implementation Issues
 
 ## NOT-RECENTLY-USED {NRU} ALGORITHM
 - Each page has reference bit and dirty bit
-    - Bits are set when page is referenced and/or modified 
+    - Bits are set when page is referenced and/or modified
 - Pages are classified into four classes
     - 0: not referenced, not dirty
     - 1: not referenced, dirty
@@ -42,7 +42,7 @@ Paging Algorithms and Implementation Issues
     - Class 1 contains dirty pages where reference bit has been cleared
 - Algorithm: remove a page from the lowest non-empty class
     - Select a page at random from that class
-- Easy to understand and implement 
+- Easy to understand and implement
 - Performance adequate (though not optimal)
 
 
@@ -58,7 +58,7 @@ Paging Algorithms and Implementation Issues
 
 ## SECOND CHANCE PAGE REPLACEMENT
 ![fig01](ch04b/ch04b-fig01.png)￼￼
-- Modify FIFO to avoid throwing out heavily used pages 
+- Modify FIFO to avoid throwing out heavily used pages
     - If reference bit is 0, throw the page out
     - If reference bit is 1
         - Reset the reference bit to 0
@@ -78,15 +78,15 @@ Paging Algorithms and Implementation Issues
 
 
 ## LEAST-RECENTLY-USED {LRU}
-- Assume pages used recently will used again soon 
+- Assume pages used recently will used again soon
     - Throw out page that has been unused for longest time
 - Must keep a linked list of pages
-    - Most recently used at front, least at rear 
+    - Most recently used at front, least at rear
     - Update this list every memory reference!
         - This can be somewhat slow: hardware has to update a linked list on every reference!
 - Alternatively, keep counter in each page table entry
     - Global counter increments with each CPU cycle
-    - Copy global counter to PTE counter on a reference to the page 
+    - Copy global counter to PTE counter on a reference to the page
     - For replacement, evict page with lowest counter value
 
 
@@ -104,7 +104,7 @@ Paging Algorithms and Implementation Issues
 ## AGING REPLACEMENT ALGORITHM
 ![fig03](ch04b/ch04b-fig03.png)￼￼￼
 - Reduce counter values over time
-    - Divide by two every clock cycle (use right shift) 
+    - Divide by two every clock cycle (use right shift)
     - More weight given to more recent references!
 - Select page to be evicted by finding the lowest counter value Algorithm is:
     - Every clock tick, shift all counters right by 1 bit
@@ -136,17 +136,17 @@ Paging Algorithms and Implementation Issues
 
 ## PAGE REPLACEMENT ALGORITHMS: SUMMARY
 
-| Algorithm | Comment | 
+| Algorithm | Comment |
 | :-------: | :------ |
 | OPT (optional) | Not implementable, but useful as a benchmark |
 | NRU (Not Recently Used) | Crude |
-| FIFO (First-In, First-Out) | Might throw out useful pages | 
-| Second Chance | Big improvement over FIFO | 
-| Clock | Better implementation of Second Chance | 
-| LRU (Least Recently Used) | Excellent, but hard to implement exactly | 
-| NFU (Not Frequently Used) | Poor approximation to LRU | 
+| FIFO (First-In, First-Out) | Might throw out useful pages |
+| Second Chance | Big improvement over FIFO |
+| Clock | Better implementation of Second Chance |
+| LRU (Least Recently Used) | Excellent, but hard to implement exactly |
+| NFU (Not Frequently Used) | Poor approximation to LRU |
 | Aging | Good approximation to LRU, efficient to implement |
-| Working Set | Somewhat expensive to implement | 
+| Working Set | Somewhat expensive to implement |
 | WSClock | Implementable version of Working Set | ￼
 
 
@@ -167,8 +167,8 @@ Paging Algorithms and Implementation Issues
     - Trace a real workload (set of processes)
 - Use an array (or other structure) to track the pages in physical memory at any given time
     - May keep other information per page to help simulate the algorithm (modification time, time when paged in, etc.)
-- Run through references, applying the replacement algorithm 
-- Example: FIFO replacement on reference string 0 1 2 3 0 1 4 0 1 2 3 4 
+- Run through references, applying the replacement algorithm
+- Example: FIFO replacement on reference string 0 1 2 3 0 1 4 0 1 2 3 4
     - Page replacements highlighted in yellow
 
 
@@ -237,7 +237,7 @@ Paging Algorithms and Implementation Issues
 - Global allocation: replace a page from any process
 
 
-## PAGE FAULT RATE VS. ALLOCATED FRAMES 
+## PAGE FAULT RATE VS. ALLOCATED FRAMES
 ![fig10](ch04b/ch04b-fig10.png)￼
 - Local allocation may be more “fair”
     - Don’t penalize other processes for high page fault rate
@@ -251,7 +251,7 @@ Paging Algorithms and Implementation Issues
     - Some processes need more memory, ...
     - but no processes need less memory (and could give some up)
 - Problem: no way to reduce page fault rate
-- Solution: Reduce number of processes competing for memory 
+- Solution: Reduce number of processes competing for memory
     - Swap one or more to disk, divide up pages they held
     - Reconsider degree of multiprogramming
 
@@ -279,7 +279,7 @@ Paging Algorithms and Implementation Issues
     - Code & data separated
     - More complex in hardware
     - Less flexible
-    - CPU must handle instructions & data differently 
+    - CPU must handle instructions & data differently
 - MINIX does the latter
 
 
@@ -287,10 +287,10 @@ Paging Algorithms and Implementation Issues
 - Processes can share pages
     - Entries in page tables point to the same physical page frame
     - Easier to do with code: no problems with modification
-- Virtual addresses in different processes can be... 
+- Virtual addresses in different processes can be...
     - The same: easier to exchange pointers, keep data structures consistent
     - Different: may be easier to actually implement
-        - Not a problem if there are only a few shared regions 
+        - Not a problem if there are only a few shared regions
         - Can be very difficult if many processes share regions with each other
 
 
@@ -301,19 +301,19 @@ Paging Algorithms and Implementation Issues
 - Periodically (in the background)
     - Background process scans through page tables, writes out dirty pages that are pretty old
 - Background process also keeps a list of pages ready for replacement
-    - Page faults handled faster: no need to find space on demand 
+    - Page faults handled faster: no need to find space on demand
     - Cleaner may use the same structures discussed earlier (clock, etc.)
 
 ## IMPLEMENTATION ISSUES
 - Four times when OS involved with paging
 - Process creation
-    - Determine program size 
+    - Determine program size
     - Create page table
 - During process execution
     - Reset the MMU for new process
     - Flush the TLB (or reload it from saved state)
 - Page fault time
-    - Determine virtual address causing fault 
+    - Determine virtual address causing fault
     - Swap target page out, needed page in
 - Process termination time
     - Release page table
@@ -323,11 +323,11 @@ Paging Algorithms and Implementation Issues
 ## HOW IS A PAGE FAULT HANDLED?
 1. Hardware causes a page fault
 2. General registers saved (as on every exception)
-3. OS determines which virtual page needed 
+3. OS determines which virtual page needed
     1. Actual fault address in a special register
     2. Address of faulting instruction in register
         1. Page fault was in fetching instruction, or
-        2. Page fault was in fetching operands for instruction 
+        2. Page fault was in fetching operands for instruction
         3. OS must figure out which...
 4. OS checks validity of address
 5. Process killed if address was illegal
@@ -342,9 +342,9 @@ Paging Algorithms and Implementation Issues
 
 ## BACKING UP AN INSTRUCTION
 - Problem: page fault happens in the middle of instruction execution
-    - Some changes may have already happened 
+    - Some changes may have already happened
     - Others may be waiting for VM to be fixed
-- Solution: undo all of the changes made by the instruction 
+- Solution: undo all of the changes made by the instruction
     - Restart instruction from the beginning
     - This is easier on some architectures than others
 - Example: LW R1, 12(R2)
@@ -356,12 +356,12 @@ Paging Algorithms and Implementation Issues
 
 ## LOCKING PAGES IN MEMORY
 - Virtual memory and I/O occasionally interact
-- P1 issues call for read from device into buffer 
+- P1 issues call for read from device into buffer
     - While it’s waiting for I/O, P2 runs
     - P2 has a page fault
     - P1’s I/O buffer might be chosen to be paged out
         - This can create a problem because an I/O device is going to write to the buffer on P1’s behalf
-- Solution: allow some pages to be locked into memory 
+- Solution: allow some pages to be locked into memory
     - Locked pages are immune from being replaced
     - Pages only stay locked for (relatively) short periods
 
@@ -378,7 +378,7 @@ Paging Algorithms and Implementation Issues
 
 ## SEPARATING POLICY AND MECHANISM
 ![fig13](ch04b/ch04b-fig13.png)￼￼
-- Mechanism for page replacement has to be in kernel 
+- Mechanism for page replacement has to be in kernel
     - Modifying page tables
     - Reading and writing page table entries
 - Policy for deciding which pages to replace could be in user space
@@ -389,17 +389,17 @@ Paging Algorithms and Implementation Issues
 ![fig14](ch04b/ch04b-fig14.png)￼￼
 - Different “units” in a single virtual address space
     - Each unit can grow
-    - How can they be kept apart? 
+    - How can they be kept apart?
     - Example: symbol table is out of space
-- Solution: segmentation 
+- Solution: segmentation
     - Give each unit its own
- 
+
 
 ## USING SEGMENTS
 ![fig15](ch04b/ch04b-fig15.png)￼￼￼
-- Each region of the process has its own segment 
+- Each region of the process has its own segment
 - Each segment can start at 0
-    - Addresses within the segment relative to the segment start 
+    - Addresses within the segment relative to the segment start
 - Virtual addresses are <segment #, offset within segment>
 
 
@@ -411,8 +411,8 @@ Paging Algorithms and Implementation Issues
 | how many linear address spaces?￼| 1 | many |
 | more addresses than physical memory? | yes | yes |
 | separate protection for different objects? | not really | yes |
-| variable-sized objects handled with ease? | no | yes | 
-| is sharing easy? | no | yes | 
+| variable-sized objects handled with ease? | no | yes |
+| is sharing easy? | no | yes |
 | why use it? | more addresss spacewithout buying more memory | break program into logical places that are handled separately. |
 
 
@@ -436,12 +436,12 @@ Paging Algorithms and Implementation Issues
 ## CONVERTING SEGMENT TO LINEAR ADDRESS
 ![fig20](ch04b/ch04b-fig20.png)￼￼
 - Selector identifies segment descriptor
-    - Limited number of selectors available in the CPU 
-- Offset added to segment’s base address 
-- Result is a virtual address that will be translated by paging  
+    - Limited number of selectors available in the CPU
+- Offset added to segment’s base address
+- Result is a virtual address that will be translated by paging
 
 ## TRANSLATING VIRTUAL TO PHYSICAL ADDRESSES
 ![fig21](ch04b/ch04b-fig21.png)￼￼
 - Pentium uses two-level page tables
-    - Top level is called a “page directory” (1024 entries) 
-    - Second level is called a “page table” (1024 entries each) • 4 KB pages 
+    - Top level is called a “page directory” (1024 entries)
+    - Second level is called a “page table” (1024 entries each) • 4 KB pages
