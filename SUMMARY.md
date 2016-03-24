@@ -12,4 +12,7 @@
 * [mt12](mt/mt12.md)
 * [mt15](mt/mt15.md)
 * [f12](f/f12.md)
+* [lab01](lab/lab01.md)
+	* [lab01a](lab/lab01/lab01a.md)
+	* [lab01b](lab/lab01/lab01b.md)
 
