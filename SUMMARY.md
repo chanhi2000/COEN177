@@ -9,5 +9,7 @@
 * [ch04b](lect/ch04b.md)
 * [ch05](lect/ch05.md)
 * [ch06](lect/ch06.md)
-* [mt](mt/mt15.md)
+* [mt12](mt/mt12.md)
+* [mt15](mt/mt15.md)
+* [f12](f/f12.md)
 
